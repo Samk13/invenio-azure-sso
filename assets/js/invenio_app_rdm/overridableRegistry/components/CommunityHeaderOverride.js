@@ -1,0 +1,61 @@
+import React from "react";
+import { CommunityHeader, FileUploader } from "react-invenio-deposit";
+import { AccordionField, FieldLabel } from "react-invenio-forms";
+import { i18next } from "@translations/invenio_app_rdm/i18next";
+import { Card, Container, Grid, Form, Divider } from "semantic-ui-react";
+import PropTypes from "prop-types";
+
+export const CommunityHeaderOverride = ({ record, config, noFiles }) => {
+  return (
+    <>
+      <AccordionField active label={i18next.t("Community")}>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <Form.Field required id="communityRequiredMessage">
+                <Card.Content>
+                  <Card.Header>
+                    <FieldLabel
+                      className="ui grid visible info message header "
+                      htmlFor="communityHeader"
+                      label="Community is required in order to submit your data."
+                    />
+                  </Card.Header>
+                </Card.Content>
+              </Form.Field>
+              <Divider horizontal />
+              <Container className="ui grid page-subheader">
+                <CommunityHeader
+                  id="communityHeader"
+                  imagePlaceholderLink="/static/images/square-placeholder.png"
+                />
+              </Container>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </AccordionField>
+      <AccordionField
+        includesPaths={["files.enabled"]}
+        active
+        label={i18next.t("Files")}
+      >
+        {noFiles && record.is_published && (
+          <div className="text-align-center pb-10">
+            <em>{i18next.t("The record has no files.")}</em>
+          </div>
+        )}
+        <FileUploader
+          isDraftRecord={!record.is_published}
+          quota={config.quota}
+          decimalSizeDisplay={config.decimal_size_display}
+        />
+      </AccordionField>
+    </>
+  );
+};
+
+CommunityHeaderOverride.propTypes = {
+  config: PropTypes.object.isRequired,
+  record: PropTypes.object.isRequired,
+  noFiles: PropTypes.bool,
+};
