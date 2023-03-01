@@ -13,6 +13,7 @@ instance-test-2 = {editable="True", path="./site"}
 uwsgi = ">=2.0"
 uwsgitop = ">=0.11"
 uwsgi-tools = ">=1.1.1"
+python-dotenv= ">=0.21.1"
 
 [requires]
 python_version = "3.9"
